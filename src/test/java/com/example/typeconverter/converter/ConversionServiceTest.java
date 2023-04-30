@@ -1,0 +1,35 @@
+package com.example.typeconverter.converter;
+
+import com.example.typeconverter.type.IpPort;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.core.convert.support.DefaultConversionService;
+
+import static org.assertj.core.api.Assertions.*;
+
+public class ConversionServiceTest {
+    @Test
+    void ConversionService(){
+        //등록
+        DefaultConversionService conversionService= new DefaultConversionService();
+        conversionService.addConverter(new StringToInteger());
+        conversionService.addConverter(new IntegerToStringConverter());
+        conversionService.addConverter(new StringToIpPortConverter());
+        conversionService.addConverter(new IpPortToStringConverter());
+
+        //사용
+        Integer result = conversionService.convert("10", Integer.class);
+        System.out.println("result = " + result);
+
+        assertThat(conversionService.convert("10",Integer.class)).isEqualTo(10);
+        assertThat(conversionService.convert(10,String.class)).isEqualTo("10");
+
+        IpPort result1 = conversionService.convert("127.0.0.1:8080", IpPort.class);
+        assertThat(result1).isEqualTo(new IpPort("127.0.0.1",8080));
+
+        String ipPortString = conversionService.convert(new IpPort("127.0.0.1", 8080), String.class);
+        assertThat(ipPortString).isEqualTo("127.0.0.1:8080");
+
+
+    }
+}
