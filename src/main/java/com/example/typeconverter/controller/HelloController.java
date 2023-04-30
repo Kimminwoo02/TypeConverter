@@ -1,5 +1,6 @@
 package com.example.typeconverter.controller;
 
+import com.example.typeconverter.type.IpPort;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,4 +20,12 @@ public class HelloController {
         System.out.println("data = " + data);
         return "ok";
     }
+    @GetMapping("/ip-port")
+    public String IpPort(@RequestParam IpPort ipPort){
+        System.out.println("ip = " + ipPort.getIp());
+        System.out.println("ipPort = " + ipPort.getPort());
+        return "OK";
+    }
+
+
 }
